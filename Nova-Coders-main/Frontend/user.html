@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeDuel - Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #252525;
+            --accent-color: #7e57c2;
+            --accent-hover: #9575cd;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #333333;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --warning-color: #ff9800;
+            --info-color: #2196f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: var(--bg-secondary);
+            padding: 0.8rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            margin-right: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links .active {
+            color: var(--accent-color);
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 0.8rem;
+        }
+        
+        .user-name {
+            margin-right: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            margin-right: 1rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(126, 87, 194, 0.1);
+        }
+        
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-right: 2rem;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-username {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            margin-right: 2rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 20px;
+            margin-right: 1rem;
+        }
+        
+        .rank-icon {
+            margin-right: 0.5rem;
+            color: gold;
+        }
+        
+        .profile-bio {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-top: 1rem;
+        }
+        
+        .profile-actions {
+            margin-left: auto;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-card-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card-footer {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            margin-right: 0.5rem;
+        }
+        
+        .trend-up {
+            color: var(--success-color);
+        }
+        
+        .trend-down {
+            color: var(--error-color);
+        }
+        
+        .chart-container {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .chart-legend {
+            display: flex;
+            align-items: center;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.4rem;
+        }
+        
+        .chart {
+            height: 300px;
+            position: relative;
+        }
+        
+        .chart-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+        
+        .chart-line:nth-child(1) {
+            top: 0;
+        }
+        
+        .chart-line:nth-child(2) {
+            top: 25%;
+        }
+        
+        .chart-line:nth-child(3) {
+            top: 50%;
+        }
+        
+        .chart-line:nth-child(4) {
+            top: 75%;
+        }
+        
+        .chart-line:nth-child(5) {
+            bottom: 0;
+        }
+        
+        .chart-data {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 30px;
+        }
+        
+        .data-point {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .data-bar {
+            width: 60%;
+            background-color: var(--accent-color);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s;
+        }
+        
+        .data-bar.win {
+            background-color: var(--success-color);
+        }
+        
+        .data-bar.loss {
+            background-color: var(--error-color);
+        }
+        
+        .data-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .battle-history {
+            margin-top: 2rem;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .history-filters {
+            display: flex;
+        }
+        
+        .filter-btn {
+            background-color: var(--bg-tertiary);
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .battle-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .battle-table th, 
+        .battle-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .battle-table th {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .battle-table tr:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .battle-result {
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+        
+        .win-badge {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success-color);
+        }
+        
+        .loss-badge {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--error-color);
+        }
+        
+        .opponent {
+            display: flex;
+            align-items: center;
+        }
+        
+        .opponent-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-right: 0.8rem;
+        }
+        
+        .view-btn {
+            color: var(--accent-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .view-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .badge-card {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        
+        .badge-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .badge-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .skill-category {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .skill-category-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-name {
+            font-weight: 500;
+        }
+        
+        .skill-level {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .skill-bar {
+            height: 6px;
+            background-color: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background-color: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .profile-avatar {
+                margin-bottom: 1rem;
+            }
+            
+            .profile-actions {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>CodeBattle</h1>
+        </div>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="battle.html">Battle Arena</a>
+            <a href="user.html" class="active">Profile</a>
+            <a href="login.html">Logout</a>
+        </div>
+        <div class="user-actions">
+            <div class="user-profile">
+                <div class="user-avatar">S</div>
+                <span class="user-name">StarCoder</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar">S</div>
+                <div class="profile-info">
+                    <h1 class="profile-name">StarCoder</h1>
+                    <div class="profile-username">@starcoder</div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">1842</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">234</div>
+                            <div class="stat-label">Battles</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">67%</div>
+                            <div class="stat-label">Win Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">Tournaments</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="rank-badge">
+                            <i class="fas fa-crown rank-icon"></i>
+                            Master
+                        </div>
+                        <div class="rank-badge">
+                            <i class="fas fa-code rank-icon" style="color: #2196f3;"></i>
+                            Python Specialist
+                        </div>
+                    </div>
+                    <p class="profile-bio">
+                        Full-stack developer with a passion for algorithmic challenges and competitive programming. 
+                        Over 5 years of experience in software development with expertise in Python and JavaScript.
+                    </p>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+            
+            <div class="profile-tabs">
+                <div class="tab active" data-tab="overview">Overview</div>
+                <div class="tab" data-tab="battles">Battle History</div>
+                <div class="tab" data-tab="skills">Skills & Languages</div>
+                <div class="tab" data-tab="badges">Badges & Achievements</div>
+            </div>
+            
+            <div class="tab-content active" id="overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-title">TOTAL BATTLES</div>
+                        <div class="stat-card-value">234</div>
+                        <div class="stat-card-footer">
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 12%
+                            </div>
+                            vs last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-title">WIN RATE</div>
+                        <div class="stat-card-value">67%</div>
+                        <div class="stat-card-footer">
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 3%
+                            </div>
+                            vs last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-title">CURRENT RATING</div>
+                        <div class="stat-card-value">1842</div>
+                        <div class="stat-card-footer">
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 78
+                            </div>
+                            vs last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-title">BEST LANGUAGE</div>
+                        <div class="stat-card-value">Python</div>
+                        <div class="stat-card-footer">
+                            86% win rate with Python
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Rating Progress</div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--accent-color);"></div>
+                                Rating
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <div class="chart-line"></div>
+                        <div class="chart-line"></div>
+                        <div class="chart-line"></div>
+                        <div class="chart-line"></div>
+                        <div class="chart-line"></div>
+                        
+                        <div class="chart-data">
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 40%"></div>
+                                <div class="data-label">Jan</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 60%"></div>
+                                <div class="data-label">Feb</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 45%"></div>
+                                <div class="data-label">Mar</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 75%"></div>
+                                <div class="data-label">Apr</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 65%"></div>
+                                <div class="data-label">May</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 80%"></div>
+                                <div class="data-label">Jun</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 90%"></div>
+                                <div class="data-label">Jul</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar" style="height: 85%"></div>
+                                <div class="data-label">Aug</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Recent Battle Results</div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--success-color);"></div>
+                                Win
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--error-color);"></div>
+                                Loss
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <div class="chart-data">
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 70%"></div>
+                                <div class="data-label">1</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 80%"></div>
+                                <div class="data-label">2</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar loss" style="height: 50%"></div>
+                                <div class="data-label">3</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 65%"></div>
+                                <div class="data-label">4</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 75%"></div>
+                                <div class="data-label">5</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar loss" style="height: 45%"></div>
+                                <div class="data-label">6</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 85%"></div>
+                                <div class="data-label">7</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 90%"></div>
+                                <div class="data-label">8</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar loss" style="height: 40%"></div>
+                                <div class="data-label">9</div>
+                            </div>
+                            <div class="data-point">
+                                <div class="data-bar win" style="height: 75%"></div>
+                                <div class="data-label">10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="battle-history">
+                    <div class="history-header">
+                        <h2>Recent Battles</h2>
+                        <div class="history-filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Wins</button>
+                            <button class="filter-btn">Losses</button>
+                        </div>
+                    </div>
+                    
+                    <table class="battle-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Problem</th>
+                                <th>Result</th>
+                                <th>Opponent</th>
+                                <th>Rating Change</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Apr 25, 2025</td>
+                                <td>Merge Intervals</td>
+                                <td>
+                                    <div class="battle-result">
+                                        <span class="result-badge win-badge">Win</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="opponent">
+                                        <div class="opponent-avatar">C</div>
+                                        <div>CodeNinja</div>
+                                    </div>
+                                </td>
+                                <td style="color: var(--success-color);">+25</td>
+                                <td><button class="view-btn">View Battle</button></td>
+                            </tr>
+                            <tr>
+                                <td>Apr 23, 2025</td>
+                                <td>Binary Tree Paths</td>
+                                <td>
+                                    <div class="battle-result">
+                                        <span class="result-badge win-badge">Win</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="opponent">
+                                        <div class="opponent-avatar">P</div>
+                                        <div>PyMaster</div>
+                                    </div>
+                                </td>
+                                <td style="color: var(--success-color);">+18</td>
+                                <td><button class="view-btn">View Battle</button></td>
+                            </tr>
+                            <tr>
+                                <td>Apr 21, 2025</td>
+                                <td>Validate BST</td>
+                                <td>
+                                    <div class="battle-result">
+                                        <span class="result-badge loss-badge">Loss</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="opponent">
+                                        <div class="opponent-avatar">A</div>
+                                        <div>AlgoWizard</div>
+                                    </div>
+                                </td>
+                                <td style="color: var(--error-color);">-12</td>
+                                <td><button class="view-btn">View Battle</button></td>
+                            </tr>
+                            <tr>
+                                <td>Apr 19, 2025</td>
+                                <td>Maximum Subarray</td>
+                                <td>
+                                    <div class="battle-result">
+                                        <span class="result-badge win-badge">Win</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="opponent">
+                                        <div class="opponent-avatar">B</div>
+                                        <div>CodeGuru</div>
+                                    </div>
+                                </td>
+                                <td style="color: var(--success-color);">+15</td>
+                                <td><button class="view-btn">View Battle</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="battles">
+                <!-- Battle history content -->
+            </div>
+            
+            <div class="tab-content" id="skills">
+                <!-- Skills content -->
+            </div>
+            
+            <div class="tab-content" id="badges">
+                <!-- Badges content -->
+            </div>
+        </div>
+    </main>
+</body>
+</html>

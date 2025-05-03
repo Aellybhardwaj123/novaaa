@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeBattle - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #6c5ce7;
+            --accent-secondary: #8c7ae6;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            display: flex;
+            flex: 1;
+        }
+        
+        .left-panel {
+            flex: 1;
+            display: none;
+            background-color: var(--bg-secondary);
+            padding: 3rem;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .brand-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .brand-icon {
+            color: var(--accent-primary);
+            font-size: 1.75rem;
+        }
+        
+        .illustration {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+        }
+        
+        .illustration-icon {
+            font-size: 8rem;
+            color: var(--accent-primary);
+        }
+        
+        .illustration-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+        
+        .illustration-text {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 80%;
+        }
+        
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .feature-icon {
+            color: var(--accent-primary);
+            font-size: 1.25rem;
+        }
+        
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-subtitle {
+            color: var(--text-secondary);
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-input {
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid #333;
+            border-radius: 0.375rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+        
+        .password-input-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .submit-button {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .submit-button:hover {
+            background-color: var(--accent-secondary);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (min-width: 1024px) {
+            .left-panel {
+                display: flex;
+            }
+        }
+        
+        .login-form {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--accent-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel: Brand & Features -->
+        <div class="left-panel">
+            <div class="brand">
+                <i class="fa-solid fa-code brand-icon"></i>
+                <span class="brand-name">CodeBattle</span>
+            </div>
+            
+            <div class="illustration">
+                <i class="fa-solid fa-code-compare illustration-icon"></i>
+                <h2 class="illustration-title">Challenge. Code. Conquer.</h2>
+                <p class="illustration-text">One-on-one coding battles to sharpen your skills and outshine your competitors.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fa-solid fa-bolt feature-icon"></i>
+                    <span>Real-time coding battles</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-trophy feature-icon"></i>
+                    <span>Track your progress and rankings</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-user-group feature-icon"></i>
+                    <span>Challenge coders worldwide</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel: Login Form -->
+        <div class="right-panel">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1 class="form-title">Welcome back</h1>
+                    <p class="form-subtitle">Sign in to continue to CodeBattle</p>
+                </div>
+                
+                <div class="login-form">
+                    <h2>Welcome to CodeBattle</h2>
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="login-btn">Login</button>
+                    </form>
+                </div>
+                
+                <form class="auth-form" id="signupForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="signupUsername" class="form-label">Username</label>
+                        <input type="text" id="signupUsername" class="form-input" placeholder="Choose a username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signupEmail" class="form-label">Email</label>
+                        <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="signupPassword" class="form-input" placeholder="Create a password"  required>
+                            <button type="button" class="password-toggle" id="signupPasswordToggle">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="error-message" id="signupErrorMessage">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span id="signupErrorText"></span>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Create Account</button>
+                    
+                    <div class="form-footer">
+                        Already have an account? <a href="#" id="switchToLogin">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Toggle between login and signup forms
+        document.getElementById('switchToSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'flex';
+            document.querySelector('.form-title').textContent = 'Create an account';
+            document.querySelector('.form-subtitle').textContent = 'Join CodeBattle and start competing';
+        });
+        
+        document.getElementById('switchToLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'flex';
+            document.querySelector('.form-title').textContent = 'Welcome back';
+            document.querySelector('.form-subtitle').textContent = 'Sign in to continue to CodeBattle';
+        });
+        
+        // Password visibility toggle
+        document.getElementById('passwordToggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        document.getElementById('signupPasswordToggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('signupPassword');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Form submission
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (Auth.login(username, password)) {
+                window.location.href = 'home.html';
+            } else {
+                const errorMessage = document.getElementById('errorMessage');
+                const errorText = document.getElementById('errorText');
+                errorText.textContent = 'Invalid credentials';
+                errorMessage.style.display = 'flex';
+            }
+        }
+        
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            // Basic validation
+            if (!username || !email || !password) {
+                const errorMessage = document.getElementById('signupErrorMessage');
+                const errorText = document.getElementById('signupErrorText');
+                errorText.textContent = 'Please fill in all fields';
+                errorMessage.style.display = 'flex';
+                return;
+            }
+            
+            // In a real app, this would create a new user account
+            // For demo purposes, we'll just log in the user
+            if (Auth.login(username, password)) {
+                window.location.href = 'home.html';
+            }
+        });
+    </script>
+</body>
+</html>
